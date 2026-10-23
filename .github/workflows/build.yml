@@ -46,7 +46,7 @@ jobs:
           if grep -E "ssl|crypto" deps.txt | grep -v "^/usr/lib\|^/System"; then
             echo "wheel links a non-system OpenSSL"; exit 1
           fi
-          python -m pip install --force-reinstall --no-deps dist/cryptography-*.whl
+          python -m pip install cffi && python -m pip install --force-reinstall --no-deps dist/cryptography-*.whl
           python -c "from cryptography.hazmat.backends.openssl import backend; from cryptography.fernet import Fernet; Fernet(Fernet.generate_key()); print(backend.openssl_version_text())"
       - name: Publish to the `latest` release
         if: github.ref == 'refs/heads/main'
